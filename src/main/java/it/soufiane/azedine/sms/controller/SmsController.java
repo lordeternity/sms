@@ -6,15 +6,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.soufiane.azedine.sms.model.data.entities.Assignment;
 import it.soufiane.azedine.sms.model.data.entities.Course;
 import it.soufiane.azedine.sms.model.data.entities.Student;
 import it.soufiane.azedine.sms.model.data.entities.Teacher;
-
+import it.soufiane.azedine.sms.model.data.repo.AssignmentRepository;
+// import it.soufiane.azedine.sms.model.data.repo.ClassRepository;
 import it.soufiane.azedine.sms.model.data.repo.CourseRepository;
 import it.soufiane.azedine.sms.model.data.repo.StudentRepository;
 import it.soufiane.azedine.sms.model.data.repo.TeacherRepository;
 import it.soufiane.azedine.sms.model.services.EnrollService;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -32,6 +35,12 @@ public class SmsController {
 
     @Autowired
     private EnrollService enrollService;
+
+    // @Autowired
+    // private ClassRepository classRepository;
+
+    @Autowired
+    private AssignmentRepository assignmentRepository;
 
     @PostMapping(path = "addstudent")
     public @ResponseBody String addStudent(@RequestParam String fname, @RequestParam String lname, @RequestParam int studId) {
@@ -86,6 +95,43 @@ public class SmsController {
             return "Student Was Not Enrolled";
 
         }
+
+    }
+
+    @GetMapping(path = "displayStudents")
+    public @ResponseBody Iterable<Student> displayStudents(){
+
+        return studentRepository.findAll();
+
+    }
+
+    @GetMapping(path = "displayTeachers")
+    public @ResponseBody Iterable<Teacher> displayTeachers(){
+
+        return teacherRepository.findAll();
+
+    }
+
+    //  In theory should return a list of all classes with table info/data, but naming conflicts with java.lang.class
+
+    // @GetMapping(path = "displayClass")
+    // public @ResponseBody Iterable<Class> displayClasses(){
+
+    //     return classRepository.findAll();
+
+    // }
+
+    @GetMapping(path = "displayCourses")
+    public @ResponseBody Iterable<Course> displayCourses(){
+
+        return courseRepository.findAll();
+
+    }
+
+    @GetMapping(path = "displayAssignments")
+    public @ResponseBody Iterable<Assignment> displayAssignments(){
+
+        return assignmentRepository.findAll();
 
     }
     
